@@ -16,7 +16,7 @@ export const addToCart = async (foodId, token) => {
 export const removeItemFromCart = async (foodId, token) => {
   try {
     await axios.post(
-      API_URL + "/remove",
+      `${API_URL}/remove`,
       { foodId },
       { headers: { Authorization: `Bearer ${token}` } },
     );
@@ -27,12 +27,9 @@ export const removeItemFromCart = async (foodId, token) => {
 
 export const getCartData = async (token) => {
   try {
-    const response = await axios.get(
-      `${process.env.REACT_APP_API_BASE_URL}/api/cart`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      },
-    );
+    const response = await axios.get(API_URL, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     return response.data.items;
   } catch (error) {
     console.error("Error fetching the data", error);
