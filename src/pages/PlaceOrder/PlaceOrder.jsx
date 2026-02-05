@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { RAZORPAY_KEY } from "../../util/Constants";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // import Razorpay from "razorpay";
 
@@ -50,9 +51,9 @@ const PlaceOrder = () => {
     };
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/orders/create",
+        `${BASE_URL}/api/orders/create`,
         orderData,
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       if (response.status === 201 && response.data.razorpayOrderId) {
         initiateRazorpayPayment(response.data);
@@ -99,11 +100,11 @@ const PlaceOrder = () => {
     };
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/orders/verify",
+        `${BASE_URL}/api/orders/verify`,
         paymentData,
         {
           headers: { Authorization: `Bearer ${token}` },
-        }
+        },
       );
       if (response.status === 200) {
         toast.success("payment successful");
@@ -120,7 +121,7 @@ const PlaceOrder = () => {
   };
   const deleteOrder = async (orderId) => {
     try {
-      await axios.delete(`http://localhost:8080/api/orders/order/${orderId}`, {
+      await axios.delete(`${BASE_URL}/api/orders/order/${orderId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
     } catch (error) {
@@ -131,7 +132,7 @@ const PlaceOrder = () => {
 
   const clearCart = async () => {
     try {
-      await axios.delete("http://localhost:8080/api/cart", {
+      await axios.delete(`${BASE_URL}/api/cart`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setQuantities({});
@@ -143,7 +144,7 @@ const PlaceOrder = () => {
   const cartItems = foodList.filter((food) => quantities[food.id] > 0);
   const { subtotal, shipping, tax, total } = calculateCartTotals(
     cartItems,
-    quantities
+    quantities,
   );
   return (
     <div className="container mt-4">

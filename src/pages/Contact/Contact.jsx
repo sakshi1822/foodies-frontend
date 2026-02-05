@@ -18,8 +18,8 @@ const Contact = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    const res = await axios.post("http://localhost:8080/api/contact", formData);
+    const API_URL = `${import.meta.env.VITE_API_BASE_URL}/api/contact`;
+    const res = await axios.post(API_URL, formData);
 
     alert("Message sent!");
   };
