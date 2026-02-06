@@ -18,10 +18,14 @@ const Contact = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const API_URL = `${import.meta.env.VITE_API_BASE_URL}/api/contact`;
-    const res = await axios.post(API_URL, formData);
-
-    alert("Message sent!");
+    try {
+      const API_URL = `${import.meta.env.VITE_API_BASE_URL}/api/contact`;
+      const res = await axios.post(API_URL, formData);
+      alert("Message sent!");
+    } catch (err) {
+      console.error("Contact form error:", err);
+      alert("Failed to send message");
+    }
   };
 
   return (
